@@ -4,30 +4,24 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.R2Jesu_DriveSubsystem;
-
-import java.util.function.DoubleSupplier;
+import frc.robot.subsystems.R2Jesu_ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An R2Jesu_Drive command that uses an R2Jesu_Drive subsystem. */
-public class R2Jesu_DriveCommand extends Command {
+/** An R2Jesu_ReverseIntake command that uses an R2Jesu_Shooter subsystem. */
+public class R2Jesu_ReverseIntakeCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final R2Jesu_DriveSubsystem m_subsystem;
-  private DoubleSupplier m_x;
-  private DoubleSupplier m_y;
-  private DoubleSupplier m_z;
+  private final R2Jesu_ShooterSubsystem m_subsystem;
+  
 
   /**
-   * Creates a new R2Jesu_DriveCommand.
+   * Creates a new R2Jesu_ReverseIntakeCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public R2Jesu_DriveCommand(R2Jesu_DriveSubsystem subsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier z) {
+  public R2Jesu_ReverseIntakeCommand(R2Jesu_ShooterSubsystem subsystem) {
     m_subsystem = subsystem;
-    m_x = x;
-    m_y = y;
-    m_z = z;
+   
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -39,8 +33,11 @@ public class R2Jesu_DriveCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.drive(m_x.getAsDouble(), m_y.getAsDouble(), m_z.getAsDouble());
+    m_subsystem.reverseIntake();
   }
+  
+ 
+  
 
   // Called once the command ends or is interrupted.
   @Override

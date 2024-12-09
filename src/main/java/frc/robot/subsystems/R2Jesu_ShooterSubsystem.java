@@ -70,6 +70,7 @@ public class R2Jesu_ShooterSubsystem extends SubsystemBase {
   }
 
   public void runShooter() {
+    //System.out.println("runShooter");
     if (!digitalSensor.get()) {
       intakeMotor.set(0.30);
       intakeGreenMotor.set(.30);
@@ -99,6 +100,7 @@ public class R2Jesu_ShooterSubsystem extends SubsystemBase {
           bottomMotor.set(shootIt);//.9
           intakeMotor.set(0.0);
           intakeGreenMotor.set(0.0);
+          indexerMotor.set(0.0);
 
           shooterRunning = true;
           lastDist=theDist;
@@ -106,11 +108,13 @@ public class R2Jesu_ShooterSubsystem extends SubsystemBase {
   }
 }  
 public void standardShot() {
+  //System.out.println("standardShot");
   indexerMotor.set(0.15);
     
   }
 
   public void lightShot() {
+    //System.out.println("lightShot");
     topMotor.set(0.25);
     bottomMotor.set(0.25);
     intakeMotor.set(0.0);
@@ -119,6 +123,7 @@ public void standardShot() {
 }
 
 public void reverseIntake() {
+//System.out.println("reverseIntake");
 topMotor.set(0.0);
 bottomMotor.set(0.0);
 intakeMotor.set(-0.20);

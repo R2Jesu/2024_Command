@@ -7,8 +7,14 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.R2Jesu_DriveCommand;
+import frc.robot.commands.R2Jesu_ForwardHangCommand;
+import frc.robot.commands.R2Jesu_ReverseHangCommand;
 import frc.robot.commands.R2Jesu_LightShotCommand;
+import frc.robot.commands.R2Jesu_ShooterCommand;
+import frc.robot.commands.R2Jesu_ShootCommand;
+import frc.robot.commands.R2Jesu_ReverseIntakeCommand;
 import frc.robot.subsystems.R2Jesu_DriveSubsystem;
+import frc.robot.subsystems.R2Jesu_HangerSubsystem;
 import frc.robot.subsystems.R2Jesu_ShooterSubsystem;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -33,6 +39,7 @@ public class RobotContainer {
   R2Jesu_Limelight robotLimelight = new R2Jesu_Limelight();
   private final R2Jesu_DriveSubsystem m_R2Jesu_DriveSubsystem = new R2Jesu_DriveSubsystem(ahrs);
   private final R2Jesu_ShooterSubsystem m_R2Jesu_ShooterSubsystem = new R2Jesu_ShooterSubsystem(robotLimelight);
+  private final R2Jesu_HangerSubsystem m_R2Jesu_HangerSubsystem = new R2Jesu_HangerSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController =
@@ -48,8 +55,13 @@ public class RobotContainer {
         () -> m_driverController.getRightX(),
         () ->  m_driverController.getRightY(),
         () -> -m_driverController.getLeftX()));
+    
+    m_R2Jesu_ShooterSubsystem.setDefaultCommand(
+     new R2Jesu_ShooterCommand(m_R2Jesu_ShooterSubsystem)); 
+     
+   m_R2Jesu_HangerSubsystem.setDefaultCommand(
+     new R2Jesu_ReverseHangCommand(m_R2Jesu_HangerSubsystem)); 
   }
-
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -61,7 +73,10 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `R2Jesu_DriveCommand` when `R2Jesu_DriveCondition` changes to `true`
-    new JoystickButton(m_driverController, XboxController.Button.kA.value).onTrue(new R2Jesu_LightShotCommand(m_R2Jesu_ShooterSubsystem)); 
+    new JoystickButton(m_driverController, XboxController.Button.kA.value).whileTrue(new R2Jesu_LightShotCommand(m_R2Jesu_ShooterSubsystem));
+    new JoystickButton(m_driverController, XboxController.Button.kB.value).whileTrue(new R2Jesu_ShootCommand(m_R2Jesu_ShooterSubsystem));
+    new JoystickButton(m_driverController, XboxController.Button.kX.value).whileTrue(new R2Jesu_ReverseIntakeCommand(m_R2Jesu_ShooterSubsystem));
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value).whileTrue(new R2Jesu_ForwardHangCommand(m_R2Jesu_HangerSubsystem));
 
     // Schedule `R2Jesu_DriveMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
